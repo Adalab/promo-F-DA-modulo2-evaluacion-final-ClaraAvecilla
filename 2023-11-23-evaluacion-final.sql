@@ -194,7 +194,34 @@ INNER JOIN film_category AS fc ON f.film_id = fc.film_id
 INNER JOIN category AS c ON fc.category_id = c.category_id
 WHERE c.name = "Family";				
 
-/* 18 - Encuentra el título de todas las películas que son "R" y tienen una duración mayor a 2 horas en la tabla film.*/
+
+
+
+/* 18 - Muestra el nombre y apellido de los actores que aparecen en más de 10 películas.*/
+
+SELECT * FROM film_actor;
+
+			SELECT actor_id, COUNT(film_id)
+			 FROM film_actor
+			 GROUP BY actor_id
+			 HAVING COUNT(film_id) > 10;
+
+
+			SELECT a.first_name, a.last_name, fa.actor_id, COUNT(fa.film_id)
+			 FROM film_actor as fa
+			 INNER JOIN actor as a ON fa.actor_id = a.actor_id
+			 GROUP BY actor_id
+			 HAVING COUNT(fa.film_id) > 10;
+-- QRY FINAL:
+
+SELECT a.first_name AS nombre_actor, a.last_name AS apellido_actor
+ FROM film_actor as fa
+ INNER JOIN actor as a ON fa.actor_id = a.actor_id
+ GROUP BY a.first_name, a.last_name
+ HAVING COUNT(fa.film_id) > 10;
+
+
+/* 19 - Encuentra el título de todas las películas que son "R" y tienen una duración mayor a 2 horas en la tabla film.*/
 
 	SELECT * FROM film;
 
@@ -205,7 +232,7 @@ WHERE c.name = "Family";
 
 
 
-/* 19 - Encuentra las categorías de películas que tienen un promedio de duración superior a 120 minutos y muestra el nombre de la categoría junto con el promedio de duración.*/
+/* 20 - Encuentra las categorías de películas que tienen un promedio de duración superior a 120 minutos y muestra el nombre de la categoría junto con el promedio de duración.*/
 
 SELECT * FROM category;
 
@@ -218,7 +245,7 @@ HAVING AVG(f.length) > 120;
 
 
 
-/* 20 - Encuentra los actores que han actuado en al menos 5 películas y muestra el nombre del actor junto con la cantidad de películas en las que han actuado.*/
+/* 21 - Encuentra los actores que han actuado en al menos 5 películas y muestra el nombre del actor junto con la cantidad de películas en las que han actuado.*/
 
 SELECT * FROM film_actor;
 
@@ -230,7 +257,7 @@ GROUP BY a.first_name, a.last_name
 HAVING COUNT(fa.film_id) >=5;
 
 
-/* 21 - Encuentra el título de todas las películas que fueron alquiladas por más de 5 días. Utiliza una subconsulta para encontrar los rental_ids con una duración superior a 5 días y luego selecciona las películas correspondientes.*/
+/* 22 - Encuentra el título de todas las películas que fueron alquiladas por más de 5 días. Utiliza una subconsulta para encontrar los rental_ids con una duración superior a 5 días y luego selecciona las películas correspondientes.*/
 
 			-- para mirar cuantos días de alquiler ha estado cada pelicula:
 
@@ -269,7 +296,7 @@ WHERE film_id IN
 
 
 
-/* 22 - Encuentra el nombre y apellido de los actores que no han actuado en ninguna película de la categoría "Horror". 
+/* 23 - Encuentra el nombre y apellido de los actores que no han actuado en ninguna película de la categoría "Horror". 
 Utiliza una subconsulta para encontrar los actores que han actuado en películas de la categoría "Horror" y luego exclúyelos de la lista de actores.*/
 
 -- ruta: actor (actor_id) > film_actor (film_id) > film (film_id) > film_category (category_id) > category
@@ -360,7 +387,7 @@ WHERE actor_id NOT IN (SELECT actor_id FROM actores_horror); -- si los id de act
 
 
 
-/* 23 - BONUS: Encuentra el título de las películas que son comedias y tienen una duración mayor a 180 minutos en la tabla film.*/
+/* 24 - BONUS: Encuentra el título de las películas que son comedias y tienen una duración mayor a 180 minutos en la tabla film.*/
 -- film (film_id) > film_category (category_id) > category
 
 SELECT *
@@ -379,7 +406,7 @@ WHERE c.name = "Comedy" AND f.length > 180;
 
 
 
-/* 24 - BONUS: Encuentra todos los actores que han actuado juntos en al menos una película. La consulta debe mostrar el nombre y apellido de los actores y el número de películas en las que han actuado junto
+/* 25 - BONUS: Encuentra todos los actores que han actuado juntos en al menos una película. La consulta debe mostrar el nombre y apellido de los actores y el número de películas en las que han actuado junto
 */
 -- self join? - una tabla que se une consigo misma
 -- actor (actor_id) > film_actor (film_id) > film 
